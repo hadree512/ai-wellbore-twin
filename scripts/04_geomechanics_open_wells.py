@@ -1,4 +1,3 @@
-import os
 """Geomechanics chain on held-out FORCE 2020 wells.
 For every eligible well the density and shear-slowness models are trained on the other wells only. Overburden, Eaton
 pore pressure and Eaton fracture gradient are then computed with the corrected equations. The open data contain no
@@ -14,7 +13,7 @@ import xgboost as xgb
 from scipy.stats import theilslopes, spearmanr
 from sklearn.metrics import r2_score, mean_absolute_error
 
-from paths import RESULTS as W, DATA
+from paths import RESULTS as W, DATA, PRIVATE
 BLUE, ORANGE, AQUA, YELLOW, MAGENTA, GREEN = '#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300'
 INK, GREY = '#222222', '#8a8a86'
 plt.rcParams.update({'font.size': 8, 'axes.linewidth': 0.6, 'axes.edgecolor': '#555555', 'font.family': 'DejaVu Sans'})
@@ -118,6 +117,8 @@ for wl in wells:
     wd, r = run_well(wl)
     rows.append(r); store[wl] = wd
     print(json.dumps({k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items()}), flush=True)
+cols_keep = ['WELL', 'DEPTH_MD', 'GR', 'RHOB', 'RHOB_ml', 'RHOB_use', 'DTC', 'DTS', 'DTS_ml', 'nu_meas', 'nu_ml', 'OBG', 'OBG_meas', 'OBG_ml', 'PPG', 'FG_ml', 'MUDWEIGHT', 'NPHI', 'CALI', 'BS']
+pd.concat([store[k][[c for c in cols_keep if c in store[k].columns]] for k in store]).to_csv(W + 'geomech_all_wells.csv', index=False)
 tab = pd.DataFrame(rows)
 tab.to_csv(W + 'geomech_perwell.csv', index=False)
 good = tab[tab.trend_ok & (tab.n_mw > 500) & (tab.dts_n > 500)]  # measured shear needed so the whole chain (incl. nu) can be checked; criterion added after seeing the per-well table

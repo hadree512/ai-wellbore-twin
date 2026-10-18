@@ -1,4 +1,3 @@
-import os
 """Figures for the manuscript, built only from saved experiment outputs."""
 import json
 import numpy as np
@@ -8,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 from sklearn.metrics import r2_score
 
-from paths import RESULTS as W, DATA
+from paths import RESULTS as W, DATA, PRIVATE
 O = W + 'figs/'
 BLUE, ORANGE, AQUA, YELLOW, MAGENTA, GREEN = '#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300'
 INK, GREY = '#222222', '#8a8a86'
@@ -80,20 +79,20 @@ plt.tight_layout(); plt.savefig(O + 'fig3_reconstruction.png', dpi=300); plt.clo
 
 # ------------------------------------------------ Fig 4: Bi-LSTM
 try:
-    bm = json.load(open(W + 'bilstm_metrics.json')); z = np.load(W + 'bilstm_fold0.npz')
+    bm = json.load(open(W + 'bilstm_metrics.json')); z = np.load(W + 'bilstm_fold0.npz'); cn = json.load(open(W + 'cnn_metrics.json')); cp = np.load(W + 'cnn_fold0_pred.npy')
     fig, ax = plt.subplots(1, 4, figsize=(10, 3.6), gridspec_kw={'width_ratios': [1, 1, 1, 1.1]})
     rng = np.random.RandomState(3); idx = rng.choice(len(z['y']), 3, replace=False)
     for k, i in enumerate(idx):
         depth = np.arange(z['y'].shape[1]) * 0.15
         a = ax[k]; a.plot(z['y'][i], depth, color=INK, lw=0.9, label='Measured'); a.plot(z['lstm'][i], depth, color=ORANGE, lw=0.9, label='Bi-LSTM')
-        a.plot(z['xgb'][i], depth, color=BLUE, lw=0.7, label='XGBoost'); a.set_ylim(depth.max(), 0); a.set_xlabel('DTC (µs/ft)')
+        a.plot(z['xgb'][i], depth, color=BLUE, lw=0.7, label='XGBoost'); a.plot(cp[i], depth, color=AQUA, lw=0.7, label='CNN'); a.set_ylim(depth.max(), 0); a.set_xlabel('DTC (µs/ft)')
         a.set_title(f'({"abc"[k]}) Held-out well, window {k + 1}', fontsize=8)
         if k == 0: a.set_ylabel('Relative depth (m)'); a.legend(frameon=False, fontsize=6.5, loc='lower left')
         for s in ('top', 'right'): a.spines[s].set_visible(False)
-    keys = ['Gardner-inverse baseline', 'XGBoost (point-wise)', 'BiLSTM']; labs = ['Gardner\ninverse', 'XGBoost', 'Bi-LSTM']
-    r = [bm[k]['r2'] for k in keys]; ax[3].bar(range(3), r, color=[GREY, BLUE, ORANGE], width=0.55)
+    keys = ['Gardner-inverse baseline', 'XGBoost (point-wise)', 'BiLSTM']; labs = ['Gardner\ninverse', 'XGBoost', 'CNN', 'Bi-LSTM']
+    r = [bm[keys[0]]['r2'], bm[keys[1]]['r2'], cn['r2'], bm[keys[2]]['r2']]; ax[3].bar(range(4), r, color=[GREY, BLUE, AQUA, ORANGE], width=0.55)
     for i, v in enumerate(r): ax[3].text(i, v + 0.02, f'{v:.2f}', ha='center', fontsize=7)
-    ax[3].set_xticks(range(3)); ax[3].set_xticklabels(labs); ax[3].set_ylabel('R² (3-fold, wells held out)'); ax[3].set_title('(d) Mean R²', fontsize=8)
+    ax[3].set_xticks(range(4)); ax[3].set_xticklabels(labs); ax[3].set_ylabel('R² (3-fold, wells held out)'); ax[3].set_title('(d) Mean R²', fontsize=8)
     ax[3].set_ylim(min(0, min(r) - 0.1), 1)
     for s in ('top', 'right'): ax[3].spines[s].set_visible(False)
     plt.tight_layout(); plt.savefig(O + 'fig4_bilstm.png', dpi=300); plt.close()

@@ -31,11 +31,14 @@ Scripts and what they do:
 | `01_lithology.py` | threshold rules, Random Forest, XGBoost, SVM; five folds split by well |
 | `02_reconstruction.py` | bulk density and shear slowness from other logs; Poisson's ratio |
 | `03_bilstm_dtc.py` | Bi-LSTM versus point-wise XGBoost for compressional slowness |
+| `03b_cnn_dtc.py` | 1-D CNN on the same windows and folds as the Bi-LSTM |
 | `04_geomechanics_open_wells.py` | overburden, Eaton pore pressure and fracture gradient on eligible wells |
 | `05_field_case.py` | d-exponent and Haworth / Pixler gas ratios (needs the private workbook) |
 | `06_make_figures.py` | figures from the saved results |
 | `07_extra_figures.py` | lithology diagnostics and per-well geomechanics figures |
 | `08_field_formation_figure.py` | gas ratios by formation (needs the private field outputs) |
+| `09_geomechanics_extended.py` | dynamic moduli, shale strength, horizontal stress, stability window and calliper check |
+| `10_field_gas_diagnostics.py` | normalised gas, isomer ratios, Bernard parameter, Pixler ordering (private field outputs) |
 
 Expect a few hours for the first three on a two-core machine. The large intermediate arrays are re-created by the scripts and are not stored here.
 
@@ -50,9 +53,9 @@ Lithology, five folds, wells held out, pooled over test folds:
 | XGBoost | 0.710 | 0.321 | 0.345 | -0.76 |
 | SVM (RBF) | 0.527 | 0.384 | 0.304 | -1.23 |
 
-Reconstruction (R squared, pooled over wells held out): density 0.78 (XGBoost), shear slowness 0.90 (MLP); Poisson's ratio from predicted shear slowness, MAE 0.026. Bi-LSTM R squared for DTC 0.90 against 0.90 for XGBoost, so no gain.
+Reconstruction (R squared, pooled over wells held out): density 0.78 (XGBoost), shear slowness 0.90 (MLP); Poisson's ratio from predicted shear slowness, MAE 0.026. CNN R squared for DTC is 0.89; Bi-LSTM R squared for DTC 0.90 against 0.90 for XGBoost, so neither network gives a gain.
 
-The pressure chain has no ground truth in the open data. Results in `results/geomech_perwell.csv` are plausibility checks against the mud weight used.
+The extended geomechanics (script 09) covers dynamic elastic moduli, empirical shale strength, horizontal stress and a vertical-well stability window. Its collapse estimate was checked against calliper enlargement in the one well that allowed it, and did not predict it (see `results/geomech_ext_caliper.json`). The pressure chain has no ground truth in the open data. Results in `results/geomech_perwell.csv` are plausibility checks against the mud weight used.
 
 ## Layout
 

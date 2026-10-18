@@ -8,3 +8,6 @@ results/geomech_rep_well.csv
 results/geomech_well_processed.csv
 results/field_*
 results/figs/fig_field_*
+results/geomech_all_wells.csv
+results/geomech_ext_samples.csv
+results/cnn_fold0_pred.npy
