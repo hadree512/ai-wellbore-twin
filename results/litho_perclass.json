@@ -1,0 +1,31 @@
+{
+ "best": "Random Forest",
+ "per_class_f1": {
+  "Sandstone": 0.6968663808482802,
+  "Sandstone/Shale": 0.25797218423274965,
+  "Shale": 0.8307982730401928,
+  "Marl": 0.3321945125897386,
+  "Dolomite": 0.00431266846361186,
+  "Limestone": 0.5358407150522995,
+  "Chalk": 0.37867977696504584,
+  "Halite": 0.5564363260382561,
+  "Anhydrite": 0.7737296260786194,
+  "Tuff": 0.2632169493762788,
+  "Coal": 0.49906015037593987,
+  "Basement": 0.0
+ },
+ "class_counts": {
+  "Sandstone": 168937,
+  "Sandstone/Shale": 150455,
+  "Shale": 720803,
+  "Marl": 33329,
+  "Dolomite": 1688,
+  "Limestone": 56320,
+  "Chalk": 10513,
+  "Halite": 8213,
+  "Anhydrite": 1085,
+  "Tuff": 15245,
+  "Coal": 3820,
+  "Basement": 103
+ }
+}

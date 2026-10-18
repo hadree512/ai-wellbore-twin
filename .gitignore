@@ -1,0 +1,10 @@
+data/
+private/
+__pycache__/
+*.pyc
+results/*.npz
+results/litho_pred_*.npy
+results/geomech_rep_well.csv
+results/geomech_well_processed.csv
+results/field_*
+results/figs/fig_field_*

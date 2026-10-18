@@ -1,0 +1,34 @@
+{
+ "Empirical thresholds": {
+  "accuracy": 0.37805795930153585,
+  "balanced_acc": 0.2357008415952081,
+  "macro_f1": 0.2381339666842804,
+  "force_score": -1.7062987874526596,
+  "per_well_acc_mean": 0.4045355055158941,
+  "per_well_acc_sd": 0.20198228973414237
+ },
+ "Random Forest": {
+  "accuracy": 0.7013518027596494,
+  "balanced_acc": 0.41502661679685443,
+  "macro_f1": 0.42742563025508445,
+  "force_score": -0.7817261008226322,
+  "per_well_acc_mean": 0.701394519861795,
+  "per_well_acc_sd": 0.1420402861328254
+ },
+ "XGBoost": {
+  "accuracy": 0.7101214768592521,
+  "balanced_acc": 0.32121913038900646,
+  "macro_f1": 0.3446161412937265,
+  "force_score": -0.7642042663417943,
+  "per_well_acc_mean": 0.7108523122889101,
+  "per_well_acc_sd": 0.14441516480653277
+ },
+ "SVM (RBF)": {
+  "accuracy": 0.5273158475230049,
+  "balanced_acc": 0.3843224561230587,
+  "macro_f1": 0.3038970440240003,
+  "force_score": -1.2346695161344063,
+  "per_well_acc_mean": 0.5473383285551752,
+  "per_well_acc_sd": 0.17116096506173858
+ }
+}
