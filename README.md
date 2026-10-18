@@ -35,6 +35,7 @@ Scripts and what they do:
 | `05_field_case.py` | d-exponent and Haworth / Pixler gas ratios (needs the private workbook) |
 | `06_make_figures.py` | figures from the saved results |
 | `07_extra_figures.py` | lithology diagnostics and per-well geomechanics figures |
+| `08_field_formation_figure.py` | gas ratios by formation (needs the private field outputs) |
 
 Expect a few hours for the first three on a two-core machine. The large intermediate arrays are re-created by the scripts and are not stored here.
 
